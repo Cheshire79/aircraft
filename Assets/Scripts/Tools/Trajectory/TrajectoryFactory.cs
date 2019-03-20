@@ -12,8 +12,7 @@ namespace Aircraft.Tools.Trajectory
 			_screenSize = screenSize;
 		}
 		public ITrajectory CreateTrajectory()
-		{
-			return new LInierTrajectory(_screenSize, _randomnGenerator);
+		{			
 			int choice = _randomnGenerator.Next(2);
 			switch (choice)
 			{
