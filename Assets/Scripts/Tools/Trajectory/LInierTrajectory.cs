@@ -28,8 +28,8 @@ namespace Aircraft.Tools.Trajectory
 
 		public Vector2 GenerateCoord()
 		{
-			_currentPoint.x += _vX * Constants.RepaintInterval * Constants.TimeScale / 1000.0f;
-			_currentPoint.y += _vY * Constants.RepaintInterval * Constants.TimeScale / 1000.0f;
+			_currentPoint.x += _vX * Constants.PulseRepetitionInterval * Constants.TimeScale / 1000.0f;
+			_currentPoint.y += _vY * Constants.PulseRepetitionInterval * Constants.TimeScale / 1000.0f;
 
 
 			return _currentPoint;

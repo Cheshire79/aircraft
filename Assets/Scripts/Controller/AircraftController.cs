@@ -10,7 +10,7 @@ namespace Aircraft.Controller
 	public class AircraftController
 	{
 		private AircraftView _aircraftView;
-		private readonly System.Timers.Timer _scheduledTask = new System.Timers.Timer(Constants.RepaintInterval);
+		private readonly System.Timers.Timer _scheduledTask = new System.Timers.Timer(Constants.PulseRepetitionInterval);
 		private bool _isRunnig = false;
 		private Vector2 _currentPoint;
 		private Vector2 _screenSize;
@@ -36,11 +36,12 @@ namespace Aircraft.Controller
 
 		public void Run()
 		{
-			_aircraftView.gameObject.SetActive(true);
+			
 			_trajectory = _trajectoryFactory.CreateTrajectory();
 			_currentPoint = _trajectory.StartPoint;
 			MainThreadRunner.AddTask(() =>
 			{
+				_aircraftView.gameObject.SetActive(true);
 				_aircraftView.transform.localPosition = new Vector3(_currentPoint.x, _currentPoint.y, 0);
 			}
 			);
@@ -76,7 +77,7 @@ namespace Aircraft.Controller
 						//var velocity = new Vector3(position.x, position.y, 0) - _aircraftView.transform.position;
 						//_aircraftView.transform.rotation = Quaternion.LookRotation(velocity, Vector3.back);
 
-						HOTween.To(_aircraftView.transform, Constants.RepaintInterval / 1000.0f,
+						HOTween.To(_aircraftView.transform, Constants.PulseRepetitionInterval / 1000.0f,
 				new TweenParms().Prop("localPosition", new Vector3(position.x, position.y, 0)).Ease(EaseType.Linear));
 
 

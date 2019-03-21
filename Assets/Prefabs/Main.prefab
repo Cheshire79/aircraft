@@ -294,7 +294,7 @@ MonoBehaviour:
     type: 2}
   RocketViewPrefab: {fileID: 114994461727343896, guid: 4188c1798ff1deb4599f50ea8797d7d2,
     type: 2}
-  LeadingTargetView: {fileID: 114657774323349510, guid: 96717af777188ea4f945f5ebfcc1a095,
+  LeadingTargetViewPrefab: {fileID: 114657774323349510, guid: 96717af777188ea4f945f5ebfcc1a095,
     type: 2}
   GraphicElementsHolder: {fileID: 4470340205440118}
 --- !u!222 &222299870637081956

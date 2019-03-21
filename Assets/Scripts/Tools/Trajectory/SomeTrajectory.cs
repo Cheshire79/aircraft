@@ -1,5 +1,4 @@
-﻿using Aircraft.Tools.Trajectory;
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace Aircraft.Tools.Trajectory
@@ -27,12 +26,12 @@ namespace Aircraft.Tools.Trajectory
 		public Vector2 GenerateCoord()
 		{
 			_vX -= 0.01f;
-			if (_vX < -Constants.AircraftVelocityMax - 0.1)
+			if (_vX < -(Constants.AircraftVelocityMax - 0.1))
 				_vX = Constants.AircraftVelocityMin;
 			_vY = (float)Math.Sqrt((Constants.AircraftVelocityMin * Constants.AircraftVelocityMin) - (_vX * _vX));
 
-			_currentPoint.x += _vX * Constants.RepaintInterval * Constants.TimeScale / 1000.0f;
-			_currentPoint.y += _vY * Constants.RepaintInterval * Constants.TimeScale / 1000.0f;
+			_currentPoint.x += _vX * Constants.PulseRepetitionInterval * Constants.TimeScale / 1000.0f;
+			_currentPoint.y += _vY * Constants.PulseRepetitionInterval * Constants.TimeScale / 1000.0f;
 
 			return _currentPoint;
 		}

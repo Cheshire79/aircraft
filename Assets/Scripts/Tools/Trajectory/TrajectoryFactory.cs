@@ -12,14 +12,14 @@ namespace Aircraft.Tools.Trajectory
 			_screenSize = screenSize;
 		}
 		public ITrajectory CreateTrajectory()
-		{			
-			int choice = _randomnGenerator.Next(2);
+		{
+			int choice = _randomnGenerator.Next(2);			
 			switch (choice)
 			{
+
 				case 0:
 					Debug.LogWarning("create linier trajectory");
 					return new LInierTrajectory(_screenSize, _randomnGenerator);
-					break;
 				case 1:
 					Debug.LogWarning("create none linier trajectory");
 					return new SomeTrajectory(_screenSize, _randomnGenerator);
@@ -27,7 +27,6 @@ namespace Aircraft.Tools.Trajectory
 					Debug.LogWarning("create none linier trajectory");
 					return new SomeTrajectory(_screenSize, _randomnGenerator);					
 			}
-
 		}
 	}
 

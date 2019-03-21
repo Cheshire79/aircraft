@@ -18,14 +18,13 @@ namespace Aircraft.Controller
 
 		public RocketView RocketViewPrefab;
 
-		public LeadingTargetView LeadingTargetView;
+		public LeadingTargetView LeadingTargetViewPrefab;
 		private LeadingTargetView _leadingTarget;
 		public Transform GraphicElementsHolder;
 		private Vector2 _screenSize;
 		private Vector2? _aircraftOLdPosition;
 		private AircraftController _aircraftController;
 		private RocketController _rocketController;
-
 		
 		public void Init(Camera camera)
 		{
@@ -44,7 +43,7 @@ namespace Aircraft.Controller
 			_aircraftOLdPosition = null;
 		
 
-			_leadingTarget = MonoBehaviour.Instantiate(LeadingTargetView);
+			_leadingTarget = MonoBehaviour.Instantiate(LeadingTargetViewPrefab);
 			_leadingTarget.transform.parent = GraphicElementsHolder;
 			_leadingTarget.transform.localScale = new Vector3(1 / GraphicElementsHolder.transform.localScale.x, 1 / GraphicElementsHolder.transform.localScale.x, 1 / GraphicElementsHolder.transform.localScale.x);
 			_leadingTarget.transform.localPosition = new Vector3(0, 0, 1);// Vector3.one;
@@ -65,35 +64,34 @@ namespace Aircraft.Controller
 
 		private void OnAircraftChangePosition(Vector2 pos)
 		{
-			MainThreadRunner.AddTask(() =>
-			{
+		
 				if (pos.x > -_screenSize.x / 2 && pos.x < _screenSize.x / 2
 				 && pos.y > -_screenSize.y / 2 && pos.y < _screenSize.y / 2)
 				{
 					if (_aircraftOLdPosition != null)
 					// can figure out aircraft velosity and so on
-					{
+					{						
 						if (_rocketController.IsHitting(pos))
 						{
 							OnHitting();
 						}
 						else
-						{
-							//Debug.LogWarning(" pos x = " + pos.x + " y = " + pos.y + "  _rocketPos  " + _rocketController.Position.x + " " + _rocketController.Position.y);
-							Vector2 LeaserTargetPosition = FigureOutLeaserTarget(pos, new Vector2(_aircraftOLdPosition.Value.x, _aircraftOLdPosition.Value.y), _rocketController.Position);
+						{						
+									 //Debug.LogWarning(" pos x = " + pos.x + " y = " + pos.y + "  _rocketPos  " + _rocketController.Position.x + " " + _rocketController.Position.y);
+							Vector2 LeaserTargetPosition = FigureOutLeaserTarget(pos, new Vector2(_aircraftOLdPosition.Value.x, _aircraftOLdPosition.Value.y),  _rocketController.Position);
 							_rocketController.OnLeaserTargetPositionChange(LeaserTargetPosition);
 							_aircraftOLdPosition = pos;
-							_leadingTarget.transform.gameObject.SetActive(true);
+							MainThreadRunner.AddTask(() => 	_leadingTarget.transform.gameObject.SetActive(true));
 						}
 					}
 					else
 						_aircraftOLdPosition = pos;
 				}
 				else
-				{
+				{					
 					OnLeftScreen();
 				}
-			});
+			
 		}
 
 
@@ -123,9 +121,11 @@ namespace Aircraft.Controller
 			_aircraftController.Stop();
 			_rocketController.Stop();
 			_aircraftController.Run();
-			
-			_airDefense.FireButton.interactable = true;
-			_leadingTarget.transform.gameObject.SetActive(false);
+			MainThreadRunner.AddTask(() =>
+			{
+				_airDefense.FireButton.interactable = true;
+				_leadingTarget.transform.gameObject.SetActive(false);
+			});
 		}
 
 		private void OnHitting()
@@ -134,17 +134,18 @@ namespace Aircraft.Controller
 			_aircraftOLdPosition = null;
 			_aircraftController.Stop();			
 			_rocketController.Stop();
-			_airDefense.FireButton.interactable = true;
-			_aircraftController.Run();
-
-			_leadingTarget.transform.gameObject.SetActive(false);
-
+			MainThreadRunner.AddTask(() =>
+			{
+				_airDefense.FireButton.interactable = true;
+				_leadingTarget.transform.gameObject.SetActive(false);
+			});
+			_aircraftController.Run();			
 		}
 
 		private Vector2 FigureOutLeaserTarget(Vector2 aircraftPos, Vector2 aircraftOldPos, Vector2 rocketPos)
 		{
 
-			float koef = (Constants.RepaintInterval / 1000.0f) * Constants.TimeScale;
+			float koef = (Constants.PulseRepetitionInterval / 1000.0f) * Constants.TimeScale;
 			float aircraftVelocity = Mathf.Sqrt(Mathf.Pow(((aircraftOldPos.x - aircraftPos.x) / (koef)), 2) + Mathf.Pow(((aircraftOldPos.y - aircraftPos.y) / (koef)), 2));
 
 
