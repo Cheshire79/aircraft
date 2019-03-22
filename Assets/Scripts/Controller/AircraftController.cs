@@ -52,6 +52,7 @@ namespace Aircraft.Controller
 		public void Stop()
 		{
 			_scheduledTask.Stop();
+		//	_aircraftView.gameObject.SetActive(false);
 			_isRunnig = false;
 			MainThreadRunner.AddTask(() => HOTween.Kill(_aircraftView.transform));
 		}

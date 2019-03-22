@@ -9,6 +9,7 @@ namespace Aircraft.Tools.Trajectory
 		private float _vY;
 		private float _maxVelocity;
 		private Vector2 _currentPoint;
+		private int sign=-1;
 		public Vector2 StartPoint
 		{
 			get;
@@ -25,9 +26,14 @@ namespace Aircraft.Tools.Trajectory
 
 		public Vector2 GenerateCoord()
 		{
-			_vX -= 0.01f;
-			if (_vX < -(Constants.AircraftVelocityMax - 0.1))
-				_vX = Constants.AircraftVelocityMin;
+			_vX += sign * 0.01f;
+			if (Mathf.Abs(_vX) > Constants.AircraftVelocityMax )
+			{
+				sign *= -1;
+				_vX += sign * 0.01f;
+			}
+
+
 			_vY = (float)Math.Sqrt((Constants.AircraftVelocityMin * Constants.AircraftVelocityMin) - (_vX * _vX));
 
 			_currentPoint.x += _vX * Constants.PulseRepetitionInterval * Constants.TimeScale / 1000.0f;

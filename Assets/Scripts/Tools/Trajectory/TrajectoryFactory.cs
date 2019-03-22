@@ -13,6 +13,7 @@ namespace Aircraft.Tools.Trajectory
 		}
 		public ITrajectory CreateTrajectory()
 		{
+			
 			int choice = _randomnGenerator.Next(2);			
 			switch (choice)
 			{
@@ -23,6 +24,9 @@ namespace Aircraft.Tools.Trajectory
 				case 1:
 					Debug.LogWarning("create none linier trajectory");
 					return new SomeTrajectory(_screenSize, _randomnGenerator);
+				case 2:
+					Debug.LogWarning("create circle trajectory");
+					return new CircleTrajectory(_screenSize, _randomnGenerator);
 				default:
 					Debug.LogWarning("create none linier trajectory");
 					return new SomeTrajectory(_screenSize, _randomnGenerator);					
