@@ -13,6 +13,7 @@ namespace Aircraft
 		{
 			_main = Instantiate(MainPrefab);
 			_main.transform.name = "Main";
+			_main.transform.transform.position = new Vector3(0, 0, 0);// Vecto
 			_main.GetComponent<Canvas>().worldCamera = Camera;
 			_main.Init(Camera);
 

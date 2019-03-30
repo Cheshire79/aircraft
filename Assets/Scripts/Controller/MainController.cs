@@ -110,8 +110,10 @@ namespace Aircraft.Controller
 		}
 		public void OnExit()
 		{
-			_aircraftController.Stop();
-			_rocketController.Stop();
+			if (_aircraftController != null)
+				_aircraftController.Stop();
+			if (_rocketController != null)
+				_rocketController.Stop();
 		}
 
 		private void OnLeftScreen()

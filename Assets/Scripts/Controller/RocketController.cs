@@ -56,11 +56,12 @@ namespace Aircraft.Controller
 				{
 					HOTween.Kill(_rocketView.transform);
 
-					var velocity = new Vector3(_leaserTargetPosition.Value.x, _leaserTargetPosition.Value.y, 0) - _rocketView.transform.position;
-					//		Debug.LogWarning("calc = " + _currentPosition.x + "  rocket  " + _rocketView.transform.localPosition.x);
-					//
-					//_rocketView.transform.localPosition = _currentPosition;
-					_rocketView.transform.rotation = Quaternion.LookRotation(velocity, Vector3.forward);
+					//https://answers.unity.com/questions/585035/lookat-2d-equivalent-.html
+					var velocity = new Vector3(_leaserTargetPosition.Value.x, _leaserTargetPosition.Value.y, 0) - _rocketView.transform.localPosition;
+					float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
+					Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+
+					_rocketView.transform.localRotation = q;
 					float distanceToTarget = Mathf.Sqrt(Mathf.Pow((_rocketView.transform.localPosition.x - _leaserTargetPosition.Value.x), 2) +
 									  Mathf.Pow((_rocketView.transform.localPosition.y - _leaserTargetPosition.Value.y), 2));
 

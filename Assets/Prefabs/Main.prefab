@@ -297,6 +297,8 @@ MonoBehaviour:
   LeadingTargetViewPrefab: {fileID: 114657774323349510, guid: 96717af777188ea4f945f5ebfcc1a095,
     type: 2}
   GraphicElementsHolder: {fileID: 4470340205440118}
+  TestRocketPrefab: {fileID: 114700214758667122, guid: a2d7965c1dfdef64aad36cd806e9670d,
+    type: 2}
 --- !u!222 &222299870637081956
 CanvasRenderer:
   m_ObjectHideFlags: 1
